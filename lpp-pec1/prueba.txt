@@ -1,0 +1,25 @@
+1777*
+Este es mi correo electronico profesor.tablas@madrid.uned.es
+*06
+a123
+12345 
+este es un /* comentario1 entre separadores */
+ejemplo
+de
+analisis
+lexico
+con
+JFlex NOT
+NOT
+VAR
+"STRING CON ESPACIOS ENTRE COMILLAS"
+12/03/1967
+OTRA FECHA A CONTINUACION 11/03/1967
+"STRING CON UNA CADENA DE FECHA QUE NO DEBE DE VISUALIZARSE 11/10/2021 NO VISUALIZARSE COMO FECHA"
+/* comentario2 entre separadores */
+/* comentario3 entre 
+varias lineas
+linea2
+linea3
+separadores */
+otro email _pepito-123@gmail.com

@@ -1,0 +1,5 @@
+-- ejemplo de bucle while
+while a<5 loop
+a:=a+1;
+Put_line (a);
+end loop;
