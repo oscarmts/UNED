@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title th:text="#{panel.title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/panel.css}"></link>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}"></link>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/font-awesome/css/all.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/font-awesome/js/fontawesome.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/tabs.js}"></script>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container sucess-container alert alert-success"
+		role="alert" th:if="${sucess}">
+		<p th:text="${sucess}">
+	</div>
+	<div class="container main-continer">
+		<div class="tabs">
+			<div class="tab-button-outer">
+				<ul id="tab-button">
+					<li><a href="#tab01"><span class="fas fa-calendar-day"></span></a></li>
+					<li><a href="#tab02"> <span
+							th:if="${eventsInvinted.empty}" class="far fa-envelope"></span> <span
+							th:if="${not eventsInvinted.empty}" class="fa fa-envelope"><span
+								class="count-red" th:text="${eventsInvinted.size()}"></span></span>
+					</a></li>
+					<li th:if="${isAdmin}"><a href="#tab03"><span
+							class="far fa-calendar-alt"></span><span th:if="${not myEvents.empty}"
+								class="count-red" th:text="${myEvents.size()}"></span></span> </a></li>
+					<li th:if="${isAdmin}"><a href="#tab04"> <span
+							th:if="${pendingEvents.empty}" class="far fa-calendar-plus"></span>
+							<span th:if="${not pendingEvents.empty}"
+							class="far fa-calendar-plus"><span class="count-red"
+								th:text="${pendingEvents.size()}"></span></span>
+					</a></li>
+					<li><a href="#tab05"><span class="far fa-calendar-check"></span></a></li>
+					<li th:if="${isAdmin}"><a href="#tab06"><span
+							class="fa fa-calendar"></span></a></li>
+					<li><a href="#tab10"><span class="fa fa-cog"></span></a></li>
+				</ul>
+			</div>
+			<div class="tab-select-outer">
+				<select id="tab-select">
+					<option value="#tab01">Tab 1</option>
+					<option value="#tab02">Tab 2</option>
+					<option th:if="${isAdmin}" value="#tab03">Tab 3</option>
+					<option th:if="${isAdmin}" value="#tab04">Tab 4</option>
+					<option value="#tab05">Tab 5</option>
+					<option th:if="${isAdmin}" value="#tab06">Tab 6</option>
+					<option value="#tab10">Tab 10</option>
+				</select>
+			</div>
+			<div id="tab01" class="tab-contents">
+				<h4 th:text="#{panel.tray.nextEvents}"></h4>
+				<div class="container">
+					<div th:if="${eventsEnrolled.empty}" th:text="#{common.noevents}"></div>
+					<div class="row align-items-center"
+						style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+						th:if="${not eventsEnrolled.empty}">
+						<div class="col" th:text="#{common.day}"></div>
+						<div class="col" th:text="#{common.hour}"></div>
+						<div class="col" th:text="#{common.room}"></div>
+						<div class="col" th:text="#{common.owner}"></div>
+						<div class="col"></div>
+					</div>
+					<div class="row table-row moreBtn"
+						th:data-href="@{/event/} + ${eventEnrolled.event.id} + '/' + ${idUser}"
+						th:each="eventEnrolled: ${eventsEnrolled}">
+						<div class="col" th:text="${eventEnrolled.event.dateFormated}"></div>
+						<div class="col" th:text="${eventEnrolled.event.hourFormated}"></div>
+						<div class="col" th:text="${eventEnrolled.event.room.name}"></div>
+						<div class="col" th:text="${eventEnrolled.event.owner.fullName}"></div>
+
+						<div class="col">
+							<a
+								th:href="@{/user/remove/event/} + ${eventEnrolled.event.id} + '/' + ${user.id}"
+								class="far fa-trash-alt"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tab02" class="tab-contents">
+				<h4 th:text="#{panel.tray.eventsInvited}"></h4>
+				<div th:if="${eventsInvinted.empty}" th:text="#{common.noevents}"></div>
+				<div class="row align-items-center"
+					style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+					th:if="${not eventsInvinted.empty}">
+					<div class="col" th:text="#{common.topic}"></div>
+					<div class="col" th:text="#{common.room}"></div>
+					<div class="col" th:text="#{common.owner}"></div>
+				</div>
+				<div class="row table-row moreBtn"
+					th:data-href="@{/event/preferences/} + ${eventInvinted.event.id} + '/' + ${idUser}"
+					th:each="eventInvinted: ${eventsInvinted}">
+					<div class="col" th:text="${eventInvinted.event.topic}"></div>
+					<div class="col" th:text="${eventInvinted.event.room.name}"></div>
+					<div class="col" th:text="${eventInvinted.event.owner.fullName}"></div>
+				</div>
+			</div>
+			<!-- PARTE ADMIN - MIS EVENTOS -->
+			<div th:if="${isAdmin}" id="tab03" class="tab-contents">
+				<h4 th:text="#{panel.tray.myevents}"></h4>
+				<div th:if="${myEvents.empty}" th:text="#{common.noevents}"></div>
+				<div class="row align-items-center"
+					style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+					th:if="${not myEvents.empty}">
+					<div class="col" th:text="#{common.day}"></div>
+					<div class="col" th:text="#{common.hour}"></div>
+					<div class="col" th:text="#{common.topic}"></div>
+					<div class="col" th:text="#{common.room}"></div>
+				</div>
+				<div class="row table-row moreBtn"
+					th:data-href="@{/event/} + ${myEvent.id} + '/' + ${idUser}"
+					th:each="myEvent: ${myEvents}">
+					<div class="col" th:text="${myEvent.dateFormated}"></div>
+					<div class="col" th:text="${myEvent.hourFormated}"></div>
+					<div class="col" th:text="${myEvent.topic}"></div>
+					<div class="col" th:text="${myEvent.room.name}"></div>
+				</div>
+			</div>
+			<!-- PARTE ADMIN - EVENTOS PENDIENTES -->
+			<div th:if="${isAdmin}" id="tab04" class="tab-contents">
+				<h4 th:text="#{panel.tray.pendingEvents}"></h4>
+				<div th:if="${pendingEvents.empty}" th:text="#{common.noevents}"></div>
+				<div class="row align-items-center"
+					style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+					th:if="${not pendingEvents.empty}">
+					<div class="col" th:text="#{common.topic}"></div>
+					<div class="col" th:text="#{common.room}"></div>
+					<div class="col" th:text="#{common.link}"></div>
+					<div class="col"></div>
+				</div>
+				<div class="row" th:each="pendingEvent: ${pendingEvents}">
+					<div class="col" th:text="${pendingEvent.topic}"></div>
+					<div class="col" th:text="${pendingEvent.room.name}"></div>
+					<div class="col">
+						<a th:href="@{/event/invite/token/} + ${pendingEvent.token}">Invitación</a>
+					</div>
+					<div class="col align-items-center">
+						<a th:href="@{/admin/event/configure/} + ${pendingEvent.id}"><i
+							class="fas fa-arrow-alt-circle-right"></i></a>
+					</div>
+				</div>
+			</div>
+			<div id="tab05" class="tab-contents">
+				<h4 th:text="#{panel.tray.finishedEvents}"></h4>
+				<div th:if="${finishedEvents.empty}" th:text="#{common.noevents}"></div>
+				<div class="row align-items-center"
+					style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+					th:if="${not finishedEvents.empty}">
+					<div class="col" th:text="#{common.day}"></div>
+					<div class="col" th:text="#{common.hour}"></div>
+					<div class="col" th:text="#{common.topic}"></div>
+					<div class="col" th:text="#{common.room}"></div>
+					<div class="col" th:text="#{common.owner}"></div>
+				</div>
+				<div class="row table-row moreBtn"
+					th:data-href="@{/event/detail/} + ${finishedEvent.event.id}"
+					th:each="finishedEvent: ${finishedEvents}">
+					<div class="col" th:text="${finishedEvent.event.dateFormated}"></div>
+					<div class="col" th:text="${finishedEvent.event.hourFormated}"></div>
+					<div class="col" th:text="${finishedEvent.event.topic}"></div>
+					<div class="col" th:text="${finishedEvent.event.room.name}"></div>
+					<div class="col" th:text="${finishedEvent.event.owner.fullName}"></div>
+				</div>
+			</div>
+			<!-- PARTE ADMIN - MIS EVENTOS FINALIZADOS -->
+			<div th:if="${isAdmin}" id="tab06" class="tab-contents">
+				<h4 th:text="#{panel.tray.myFinishedEvents}"></h4>
+				<div th:if="${myEventsFinished.empty}" th:text="#{common.noevents}"></div>
+				<div class="row align-items-center"
+					style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+					th:if="${not myEventsFinished.empty}">
+					<div class="col" th:text="#{common.day}"></div>
+					<div class="col" th:text="#{common.hour}"></div>
+					<div class="col" th:text="#{common.topic}"></div>
+					<div class="col">Sala</div>
+				</div>
+				<div class="row table-row moreBtn"
+					th:data-href="@{/event/detail/} + ${myEventFinished.id}"
+					th:each="myEventFinished: ${myEventsFinished}">
+					<div class="col" th:text="${myEventFinished.dateFormated}"></div>
+					<div class="col" th:text="${myEventFinished.hourFormated}"></div>
+					<div class="col" th:text="${myEventFinished.topic}"></div>
+					<div class="col" th:text="${myEventFinished.room.name}"></div>
+				</div>
+			</div>
+			<div id="tab10" class="tab-contents">
+				<h4 th:text="#{panel.updateUser}"></h4>
+				<form action="#" th:action="@{/user/update}"
+					th:object="${userUpdate}">
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+						<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+					</div>
+					<input type="hidden" th:field="*{idUser}" id="idUser" name="idUser" />
+					<div class="form-group">
+						<input type="text" class="form-control"
+							th:placeholder="${nickName}" th:field="*{nickName}" readonly />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{name}"
+							th:errorclass="errorfield" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{surname}"
+							th:errorclass="errorfield" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{email}"
+							th:errorclass="errorfield" />
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btnSubmit" th:text="#{common.update}"></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+	<script>
+		$(document).ready(function($) {
+			$(".table-row").click(function() {
+				window.document.location = $(this).data("href");
+			});
+		});
+	</script>
+</body>
+</html>

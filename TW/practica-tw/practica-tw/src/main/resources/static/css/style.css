@@ -1,0 +1,171 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+}
+
+.tabs {
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+#tab-button {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#tab-button li {
+	display: table-cell;
+	width: 20%;
+}
+
+#tab-button li a {
+	display: block;
+	padding: .5em;
+	background: #eee;
+	border: 1px solid #ddd;
+	text-align: center;
+	color: #000;
+	text-decoration: none;
+}
+
+#tab-button li:not (:first-child ) a {
+	border-left: none;
+}
+
+#tab-button li a:hover, #tab-button .is-active a {
+	border-bottom-color: transparent;
+	background: #fff;
+}
+
+.tab-contents {
+	padding: .5em 2em 1em;
+	border: 1px solid #ddd;
+}
+
+.tab-button-outer {
+	display: none;
+}
+
+.tab-contents {
+	margin-top: 20px;
+}
+
+@media screen and (min-width: 768px) {
+	.tab-button-outer {
+		position: relative;
+		z-index: 2;
+		display: block;
+	}
+	.tab-select-outer {
+		display: none;
+	}
+	.tab-contents {
+		position: relative;
+		top: -1px;
+		margin-top: 0;
+	}
+}
+
+.main-continer {
+	margin-top: 5%;
+	height: 70%;
+}
+.login-container {
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+.login-form-1 {
+	padding: 5%;
+	box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+.login-form-1 h3 {
+	text-align: center;
+	color: #333;
+}
+
+.login-form-2 {
+	padding: 5%;
+	background: #0062cc;
+	box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+.login-form-2 h3 {
+	text-align: center;
+	color: #fff;
+}
+
+.login-container form {
+	padding: 10%;
+}
+
+.btnSubmit {
+	width: 50%;
+	border-radius: 1rem;
+	padding: 1.5%;
+	border: none;
+	cursor: pointer;
+}
+
+.login-form-1 .btnSubmit {
+	font-weight: 600;
+	color: #fff;
+	background-color: #0062cc;
+}
+
+.login-form-2 .btnSubmit {
+	font-weight: 600;
+	color: #0062cc;
+	background-color: #fff;
+}
+
+.login-form-2 .ForgetPwd {
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.login-form-1 .ForgetPwd {
+	color: #0062cc;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.moreBtn:hover {
+    color:blue ;
+    font-weight:bold;
+}
+
+.table-row {
+	cursor:pointer;
+}
+
+.count-red {
+	color:red;
+	font-weight:bold;
+	padding-left: 10px;
+}
+
+.sucess-container {
+	margin-top: 5%;
+	height: 40%;
+	max-width: 400px;
+	text-align: center;
+}
+
+.container-margin-200 {
+	margin-top: 5%;
+ 	margin-left: 200px;
+	height: 40%;
+}
+
+.form-group-center {
+	text-align: center;
+}

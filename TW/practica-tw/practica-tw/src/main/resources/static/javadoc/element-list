@@ -1,0 +1,15 @@
+es.uned
+es.uned.portalreuniones.constants
+es.uned.portalreuniones.controller
+es.uned.portalreuniones.exception
+es.uned.portalreuniones.model.common
+es.uned.portalreuniones.model.dto
+es.uned.portalreuniones.model.event
+es.uned.portalreuniones.model.room
+es.uned.portalreuniones.model.user
+es.uned.portalreuniones.repository.event
+es.uned.portalreuniones.repository.room
+es.uned.portalreuniones.repository.user
+es.uned.portalreuniones.service.event
+es.uned.portalreuniones.service.room
+es.uned.portalreuniones.service.user

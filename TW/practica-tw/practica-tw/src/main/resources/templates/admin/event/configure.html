@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/libraries :: libraries"></div>
+<title>Configure Evento</title>
+<script type="text/javascript" th:src="@{/js/configure.js}"></script>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container main-continer">
+		<div class="form-group">
+			<h2>Configuración</h2>
+			<h2>
+				Evento "<label th:text="${event.topic}"></label>" situado en la sala
+				<strong><label th:text="${event.room.name}"></label></strong>
+			</h2>
+			<p>
+				Aforo total: <strong><label
+					th:text="${event.room.capacity}"></label></strong> aforo restante: <strong><label
+					th:text="${afororestante}"></label></strong>
+		</div>
+		<form th:action="@{/admin/event/configure/update}"
+			th:object="${event}" method="post">
+			<input type="hidden" name="id" id="id" th:field="*{id}" />
+			<div class="form-group">
+				<div class="row">
+					<select th:field="*{room}">
+						<option th:each="room : ${rooms}" th:value="${room.id}"
+							th:text="${room.name} + ' Disponibilidad: [' + ${room.HoursToString} + ']'" th:selected="${event.room.id == room.id}"></option>
+					</select>
+					<div class="col-sm-3">
+						<button type="submit" class="btn btn-primary">Cambiar
+							sala</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="form-group">
+			<label>Voto Usuarios</label>
+			<div th:if="${usersPreferences.empty}">¡Todavía no ha votado
+				ningún usuario!</div>
+			<div th:if="${not usersPreferences.empty}"
+				class="row align-items-center"
+				style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+				<div class="col">Nombre</div>
+				<div class="col">Fecha</div>
+				<div class="col">Horas</div>
+			</div>
+			<div class="row align-items-center"
+				th:each="userPreference : ${usersPreferences}">
+				<div class="col" th:text="${userPreference.user.fullName}"></div>
+				<div class="col" th:text="${userPreference.dateFormated}"></div>
+				<div class="col" th:text="${userPreference.HoursToString}"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div th:if="${eventInvited.empty}">¡Ya votaron todos los
+				usuarios!</div>
+			<label th:if="${not eventInvited.empty}">Usuarios que faltan
+				por votar</label>
+			<div th:if="${not eventInvited.empty}" class="row align-items-center"
+				style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+				<div class="col">Nombre</div>
+				<div class="col">Email</div>
+				<div class="col"></div>
+			</div>
+			<div class="row align-items-center"
+				th:each="userInvited : ${eventInvited}">
+				<div class="col" th:text="${userInvited.user.fullName}"></div>
+				<div class="col" th:text="${userInvited.user.email}"></div>
+				<div class="col">
+					<a
+						th:href="@{/admin/event/configure/waitingList/transfer/} + ${event.id} + '/' + ${userInvited.user.id}"><i class="fas fa-arrow-down"></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label th:if="${not usersNotRegistered.empty}">Usuarios no
+				registrados invitados</label>
+			<div th:if="${not usersNotRegistered.empty}"
+				class="row align-items-center"
+				style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+				<div class="col">Nombre</div>
+				<div class="col"></div>
+			</div>
+			<div class="row align-items-center"
+				th:each="userNotRegistered : ${usersNotRegistered}">
+				<div class="col" th:text="${userNotRegistered.user.name}"></div>
+				<div class="col"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label th:if="${not waitingList.empty}">Lista de espera</label>
+			<div th:if="${not waitingList.empty}" class="row align-items-center"
+				style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+				<div class="col">Nombre</div>
+				<div class="col">Email</div>
+				<div class="col"></div>
+			</div>
+			<div class="row align-items-center"
+				th:each="waiting : ${waitingList}">
+				<div class="col" th:text="${waiting.user.fullName}"></div>
+				<div class="col" th:text="${waiting.user.email}"></div>
+				<div class="col">
+					<a
+						th:href="@{/admin/event/configure/invited/transfer/} + ${event.id} + '/' + ${waiting.user.id}"><i
+						class="fas fa-arrow-up"></i></a>
+				</div>
+			</div>
+		</div>
+		<form th:action="@{/admin/event/configure/date}"
+			th:object="${dateEvent}" method="post">
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+				<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+			</div>
+			<input type="hidden" name="idEvent" id="idEvent"
+				th:field="*{idEvent}" /> <input type="hidden" name="idRoom"
+				id="idRoom" th:value="${idRoom}" />
+			<div class="form-group">
+				<label>Dia del evento</label><input type="date" class="form-control"
+					th:placeholder="Fecha" th:field="*{date}"
+					th:errorclass="errorfield" /> <label>Hora del evento</label><input
+					type="text" class="form-control" th:placeholder="Hora"
+					th:field="*{hour}" th:errorclass="errorfield" />
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-primary"
+					th:disabled="${not canSave}">Asignar Hora</button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>

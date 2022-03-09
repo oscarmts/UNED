@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/libraries :: libraries"></div>
+<title th:text="#{login.title}"></title>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container login-container">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-6 login-form-1">
+				<h3 th:text="#{login.welcome}"></h3>
+				<form action="#" th:action="@{/login}" th:object="${login}"
+					method="POST">
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+						<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control"
+							th:placeholder="#{login.user}" th:field="*{nickname}" />
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control"
+							th:placeholder="#{login.password}" th:field="*{password}" />
+					</div>
+					<div class="form-group mb-3">
+						<button type="submit" class="btnSubmit" th:text="#{common.enter}"></button>
+						<a th:href="@{/user/newUser}" class="col-sm-3" th:text="#{login.register}"></a>
+					</div>
+				</form>
+				<div class="form-group form-group-center">
+					<a th:href="@{/doc/Memoria.pdf}" target="_blank" th:text="#{login.document.download}"></a>
+				</div>
+				<div class="form-group form-group-center">
+					<a th:href="@{/doc/CodigoFuente.7z}" target="_blank" th:text="#{login.sourceCode}"></a>
+				</div>
+				<div class="form-group form-group-center">
+					<a th:href="@{/javadoc/index.html}" target="_blank" th:text="#{login.javadoc}"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>

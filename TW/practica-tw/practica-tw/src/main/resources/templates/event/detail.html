@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/libraries :: libraries"></div>
+<title th:text="#{event.detail.title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/panel.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/eventstyle.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/chat.css}" /></link>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}"></link>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/font-awesome/css/all.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/font-awesome/js/fontawesome.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/sockjs.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/stomp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/tabs.js}"></script>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container main-continer">
+		<div class="tabs" style="height: 100%">
+			<div class="tab-button-outer">
+				<ul id="tab-button">
+					<li><a href="#tab01"><span class="fas fa-info"></span></a></li>
+					<li><a href="#tab02"><span class="fas fa-comments"></span></a></li>
+					<li><a href="#tab03"><span class="fa fa-file"></span></a></li>
+				</ul>
+			</div>
+			<div class="tab-select-outer">
+				<select id="tab-select">
+					<option value="#tab01">Tab 1</option>
+					<option value="#tab02">Tab 2</option>
+					<option value="#tab03">Tab 3</option>
+				</select>
+			</div>
+			<div id="tab01" class="tab-contents" style="height: 100%">
+				<div class="container">
+					<p>
+						<label th:text="#{common.date}"></label> <strong><label th:text="${event.dateFormated}"></label></strong>
+						<label th:text="#{common.hour}"></label><strong><label th:text="${event.hourFormated}"></label></strong>
+					</p>
+					<h2>
+						<label th:text="#{common.event}"></label> "<label th:text="${event.topic}"></label>" <lable th:text="#{event.detail.situated}"></lable>
+						<strong><label th:text="${event.room.name}"></label></strong>
+					</h2>
+					<h4 th:text="#{event.registerUsers}"></h4>
+					<div class="container">
+						<div class="row align-items-center"
+							style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+							th:if="${not usersEnroll.empty}">
+							<div class="col" th:text="#{common.user}"></div>
+							<div class="col" th:text="#{common.name}"></div>
+						</div>
+						<div class="row align-items-center"
+							th:each="userEnroll: ${usersEnroll}">
+							<div class="col" th:text="${userEnroll.user.nickName}"></div>
+							<div class="col" th:text="${userEnroll.user.fullName}"></div>
+						</div>
+					</div>
+					<h4 th:if="${not usersNotRegistered.empty}" th:text="#{event.usersNotRegistered}"></h4>
+					<div class="row align-items-center"
+						style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+						th:if="${not usersNotRegistered.empty}">
+						<div class="col" th:text="#{common.name}"></div>
+					</div>
+					<div class="row align-items-center"
+						th:each="userNotRegistered : ${usersNotRegistered}">
+						<div class="col" th:text="${userNotRegistered.user.name}"></div>
+					</div>
+				</div>
+			</div>
+			<div id="tab02" class="tab-contents" style="height: 100%">
+				<h4 th:text="#{event.detail.fullchat}"></h4>
+				<div class="container">
+					<div th:if="${chat.empty}" th:text="#{event.detail.fullchat.empty}"></div>
+					<div class="row align-items-center" th:each="c: ${chat}">
+						<div class="col" th:text="${c.hour}"></div>
+						<div class="col" th:text="${c.user.nickName}"></div>
+						<div class="col" th:text="${c.message}"></div>
+					</div>
+				</div>
+			</div>
+			<div id="tab03" class="tab-contents" style="height: 100%">
+				<div class="container">
+					<h4 th:text="#{event.filesList}"></h4>
+					<div class="row" th:if="${files.empty}">
+						<label th:text="#{event.detail.fileList.empty}"></label>
+					</div>
+					<div class="row align-items-center"
+						style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+						th:if="${not files.empty}">
+						<div class="col-50" th:text="#{common.name}"></div>
+					</div>
+					<div class="row align-items-center" th:each="file: ${files}">
+						<div class="col-80">
+							<a th:href="@{/event/showFile/} + ${file.id}"
+								th:text="${file.fileName}" target="_blank"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>

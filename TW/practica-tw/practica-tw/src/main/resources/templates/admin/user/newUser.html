@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/libraries :: libraries"></div>
+<title th:text="#{newuser.title}"></title>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container main-continer">
+		<h2 th:text="#{newuser.title}"></h2>
+		<form th:action="@{/admin/user/create}" th:object="${newUser}"
+			method="post">
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+				<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" th:placeholder="Nick"
+					th:field="*{nickName}" th:errorclass="errorfield" />
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control"
+					th:placeholder="Contraseña" th:field="*{password}"
+					th:errorclass="errorfield" />
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" th:placeholder="#{common.name}"
+					th:field="*{name}" th:errorclass="errorfield" />
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" th:placeholder="#{common.surname}"
+					th:field="*{surname}" th:errorclass="errorfield" />
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" th:placeholder="#{common.email}"
+					th:field="*{email}" th:errorclass="errorfield" />
+			</div>
+			<div class="form-group">
+				<select class="form-control" th:placeholder="Rol" disabled>
+					<option th:each="rol : ${roles}" th:value="${rol.id}" th:if="${rol.id}==1" SELECTED
+						th:text="${rol.description}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary" th:text="#{user.addUsuario}"></button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>
+

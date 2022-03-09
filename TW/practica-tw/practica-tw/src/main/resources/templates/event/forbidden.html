@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/libraries :: libraries"></div>
+<title th:text="#{forbidden.title}"></title>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container main-continer">
+		<div class="alert alert-danger">
+			<p th:text="${msgForbidden}"></p>
+		</div>
+		<div class="alert alert-success" th:if="${idEventFinished}">
+			<p  th:if="${idUser}"><a th:href="@{/event/detail/} + ${idEventFinished}" th:text="#{forbidden.linkEvent}"></a></p>
+			<p  th:if="${idUserToken}"><a th:href="@{/event/detail/token/} + ${idEventFinished} + '/' + ${idUserToken}" th:text="#{forbidden.linkEvent}"></a></p>
+		</div>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>
+

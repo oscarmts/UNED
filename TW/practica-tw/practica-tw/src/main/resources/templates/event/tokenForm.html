@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<div th:replace="common/libraries :: libraries"></div>
+<title th:text="#{token.title}"></title>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container main-continer">
+		<form th:action="@{/event/token}" method="POST" th:object="${eventToken}">
+			<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+				<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+			</div>
+			<div class="form-group">
+				<input type="hidden" id="token" name="token" th:value="${token}" />
+				<input type="text" id="nickName" name="nickName"
+					class="form-control" th:placeholder="Nombre" th:field="*{nickName}"/>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary" th:text="#{common.enter}"></button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>

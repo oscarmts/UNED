@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}"></link>
+</head>
+<body>
+	<div th:fragment="footer" th:align="center">
+		&copy; <span
+			th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}"></span>
+		<span th:text="#{footer.copyright}"></span>
+	</div>
+</body>
+</html>

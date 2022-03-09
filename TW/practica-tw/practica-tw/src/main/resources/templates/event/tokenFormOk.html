@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/libraries :: libraries"></div>
+<title th:text="#{token.title}"></title>
+</head>
+<body>
+	<div th:replace="common/header :: header"></div>
+	<div class="container main-continer">
+		<form action="#" th:action="@{/event/enter/token}" method="POST">
+			<div class="form-group">
+				<p th:text="#{token.rollOk}"></p>
+				<p th:text="#{token.goLink}"></p>
+				<p><a th:href="@{/event/enter/token/} + ${event.id} + '/' + ${idUser}" th:text="#{token.linkToEvent}"></a></p>
+			</div>
+		</form>
+	</div>
+	<div th:replace="common/footer :: footer"></div>
+</body>
+</html>
